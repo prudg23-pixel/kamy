@@ -1,0 +1,399 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAMY | Tu juego. Tu comunidad.</title>
+    <link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo">KAMY<span>.</span></div>
+
+        <p class="category">PLATAFORMA</p>
+
+        <nav>
+            <button class="nav-btn active" data-page="home">⌂ Inicio</button>
+            <button class="nav-btn" data-page="ai">✦ Kamy AI</button>
+            <button class="nav-btn" data-page="community">◈ Community</button>
+            <button class="nav-btn" data-page="players">♙ Players</button>
+            <button class="nav-btn" data-page="boost">⚡ Boost</button>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="avatar">K</div>
+            <div>
+                <strong id="sidebar-username">Kamy User</strong>
+                <small>Mi cuenta</small>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+            <span><i></i> KAMY está online</span>
+            <button class="profile-btn" id="open-my-profile">Mi perfil ↗</button>
+        </header>
+
+        <!-- INICIO -->
+        <section id="home" class="page active">
+            <div class="hero">
+                <span class="tag">BIENVENIDO A KAMY</span>
+                <h1>Tu juego.<br><span>Tu comunidad.</span></h1>
+                <p>Conectá con jugadores, descubrí nuevas oportunidades y llevá tu experiencia al siguiente nivel.</p>
+                <button class="primary-btn" data-go="players">Explorar jugadores →</button>
+            </div>
+
+            <h2>Explorá KAMY</h2>
+
+            <div class="cards">
+                <div class="card" data-go="ai">
+                    <div class="icon purple">✦</div>
+                    <h3>Kamy AI</h3>
+                    <p>Tu asistente inteligente.</p>
+                    <span>Explorar →</span>
+                </div>
+
+                <div class="card" data-go="community">
+                    <div class="icon blue">◈</div>
+                    <h3>Community</h3>
+                    <p>Conectá con otros jugadores.</p>
+                    <span>Explorar →</span>
+                </div>
+
+                <div class="card" data-go="players">
+                    <div class="icon green">♙</div>
+                    <h3>Players</h3>
+                    <p>Encontrá tu próximo compañero.</p>
+                    <span>Explorar →</span>
+                </div>
+
+                <div class="card" data-go="boost">
+                    <div class="icon orange">⚡</div>
+                    <h3>Boost</h3>
+                    <p>Mejorá tu nivel de juego.</p>
+                    <span>Explorar →</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- KAMY AI -->
+        <section id="ai" class="page">
+            <span class="tag">INTELIGENCIA ARTIFICIAL</span>
+            <h1>Kamy <span>AI</span></h1>
+            <p>Tu asistente personal dentro de KAMY.</p>
+            <div class="placeholder">
+                <h2>✦ Kamy AI</h2>
+                <p>Próximamente, tu propia inteligencia artificial.</p>
+            </div>
+        </section>
+
+        <!-- COMMUNITY -->
+        <section id="community" class="page">
+            <span class="tag">CONECTÁ CON OTROS</span>
+            <h1>Kamy <span>Community</span></h1>
+            <p>Un espacio para compartir y conocer jugadores.</p>
+            <div class="placeholder">
+                <h2>◈ Tu comunidad empieza acá</h2>
+                <p>Próximamente: canales, amigos y mensajes privados.</p>
+            </div>
+        </section>
+
+        <!-- PLAYERS -->
+        <section id="players" class="page">
+
+            <div class="players-heading">
+                <div>
+                    <span class="tag">ROCKET LEAGUE</span>
+                    <h1>KAMY <span>Players</span></h1>
+                    <p>Encontrá compañeros, armá tu equipo y conocé nuevos jugadores.</p>
+                </div>
+
+                <button class="primary-btn" id="edit-player-profile">
+                    ✎ Mi perfil de jugador
+                </button>
+            </div>
+
+            <!-- BUSCADOR -->
+            <div class="players-search">
+                <span>⌕</span>
+                <input
+                    type="text"
+                    id="player-search"
+                    placeholder="Buscar por usuario, Epic ID o descripción..."
+                >
+                <button id="search-players">Buscar</button>
+            </div>
+
+            <!-- FILTROS -->
+            <div class="players-filters">
+
+                <div class="filter-item">
+                    <label for="filter-rank">Rango</label>
+                    <select id="filter-rank">
+                        <option value="">Todos los rangos</option>
+                        <option value="Bronze">Bronze</option>
+                        <option value="Silver">Silver</option>
+                        <option value="Gold">Gold</option>
+                        <option value="Platinum">Platinum</option>
+                        <option value="Diamond">Diamond</option>
+                        <option value="Champion">Champion</option>
+                        <option value="Grand Champion">Grand Champion</option>
+                        <option value="SSL">SSL</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label for="filter-region">Región</label>
+                    <select id="filter-region">
+                        <option value="">Todas las regiones</option>
+                        <option value="SAM">Sudamérica</option>
+                        <option value="EU">Europa</option>
+                        <option value="NA">Norteamérica</option>
+                        <option value="MENA">MENA</option>
+                        <option value="ASIA">Asia</option>
+                        <option value="OCE">Oceanía</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label for="filter-mode">Modo</label>
+                    <select id="filter-mode">
+                        <option value="">Todos los modos</option>
+                        <option value="1v1">1v1</option>
+                        <option value="2v2">2v2</option>
+                        <option value="3v3">3v3</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label for="filter-platform">Plataforma</label>
+                    <select id="filter-platform">
+                        <option value="">Todas</option>
+                        <option value="PC">PC</option>
+                        <option value="PlayStation">PlayStation</option>
+                        <option value="Xbox">Xbox</option>
+                        <option value="Nintendo Switch">Nintendo Switch</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="players-extra-filters">
+                <label>
+                    <input type="checkbox" id="filter-team">
+                    Mostrar solamente jugadores buscando equipo
+                </label>
+            </div>
+
+            <!-- RESULTADOS -->
+            <div class="players-results-header">
+                <div>
+                    <h2>Jugadores</h2>
+                    <p id="players-count">Buscando jugadores...</p>
+                </div>
+            </div>
+
+            <div id="players-list" class="players-grid">
+                <div class="placeholder">
+                    <h2>♙ Cargando jugadores...</h2>
+                    <p>Estamos buscando jugadores de KAMY.</p>
+                </div>
+            </div>
+
+            <!-- FORMULARIO DE PERFIL -->
+            <div id="player-profile-panel" class="player-profile-panel" style="display:none;">
+
+                <div class="profile-panel-header">
+                    <div>
+                        <span class="tag">TU IDENTIDAD GAMING</span>
+                        <h2>Mi perfil de jugador</h2>
+                        <p>Completá tus datos para aparecer en KAMY Players.</p>
+                    </div>
+
+                    <button type="button" id="close-player-profile">✕</button>
+                </div>
+
+                <form id="player-profile-form">
+
+                    <label for="profile-bio">Descripción</label>
+                    <textarea
+                        id="profile-bio"
+                        maxlength="300"
+                        placeholder="Contá cómo jugás, qué buscás y qué objetivos tenés..."
+                    ></textarea>
+
+                    <div class="profile-form-grid">
+
+                        <div>
+                            <label for="profile-rank">Tu rango principal</label>
+                            <select id="profile-rank" required>
+                                <option value="">Seleccionar rango</option>
+                                <option value="Bronze">Bronze</option>
+                                <option value="Silver">Silver</option>
+                                <option value="Gold">Gold</option>
+                                <option value="Platinum">Platinum</option>
+                                <option value="Diamond">Diamond</option>
+                                <option value="Champion">Champion</option>
+                                <option value="Grand Champion">Grand Champion</option>
+                                <option value="SSL">SSL</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="profile-region">Región</label>
+                            <select id="profile-region" required>
+                                <option value="">Seleccionar región</option>
+                                <option value="SAM">Sudamérica</option>
+                                <option value="EU">Europa</option>
+                                <option value="NA">Norteamérica</option>
+                                <option value="MENA">MENA</option>
+                                <option value="ASIA">Asia</option>
+                                <option value="OCE">Oceanía</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="profile-mode">Modo preferido</label>
+                            <select id="profile-mode" required>
+                                <option value="">Seleccionar modo</option>
+                                <option value="1v1">1v1</option>
+                                <option value="2v2">2v2</option>
+                                <option value="3v3">3v3</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="profile-platform">Plataforma principal</label>
+                            <select id="profile-platform" required>
+                                <option value="">Seleccionar plataforma</option>
+                                <option value="PC">PC</option>
+                                <option value="PlayStation">PlayStation</option>
+                                <option value="Xbox">Xbox</option>
+                                <option value="Nintendo Switch">Nintendo Switch</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="platform-connections">
+                        <h3>Mis cuentas de Rocket League</h3>
+                        <p>Escribí tus identificadores de las plataformas que utilizás.</p>
+
+                        <label for="platform-epic">Epic Games ID</label>
+                        <input id="platform-epic" type="text" maxlength="50" placeholder="Tu ID de Epic Games">
+
+                        <label for="platform-steam">Steam</label>
+                        <input id="platform-steam" type="text" maxlength="50" placeholder="Tu usuario o ID de Steam">
+
+                        <label for="platform-playstation">PlayStation</label>
+                        <input id="platform-playstation" type="text" maxlength="50" placeholder="Tu PSN ID">
+
+                        <label for="platform-xbox">Xbox</label>
+                        <input id="platform-xbox" type="text" maxlength="50" placeholder="Tu Gamertag">
+
+                        <label for="platform-nintendo">Nintendo</label>
+                        <input id="platform-nintendo" type="text" maxlength="50" placeholder="Tu nombre de usuario Nintendo">
+                    </div>
+
+                    <label class="looking-team-option">
+                        <input type="checkbox" id="profile-looking-team">
+                        Estoy buscando equipo
+                    </label>
+
+                    <button type="submit" class="primary-btn">
+                        Guardar mi perfil
+                    </button>
+
+                    <p id="profile-message"></p>
+
+                </form>
+            </div>
+
+        </section>
+
+        <!-- BOOST -->
+        <section id="boost" class="page">
+            <span class="tag">MEJORÁ TU JUEGO</span>
+            <h1>Kamy <span>Boost</span></h1>
+            <p>Encontrá entrenadores y servicios de coaching.</p>
+            <div class="placeholder">
+                <h2>⚡ Kamy Boost</h2>
+                <p>Próximamente: entrenadores y sesiones personalizadas.</p>
+            </div>
+        </section>
+
+        <footer>© 2026 KAMY — Todos los derechos reservados.</footer>
+
+    </main>
+
+    <!-- BOTÓN DE CUENTA -->
+    <button id="open-auth">
+        Iniciar sesión / Registrarse
+    </button>
+
+    <!-- SISTEMA DE CUENTAS KAMY -->
+    <div id="auth-container" style="display:none;">
+        <div class="auth-box">
+            <h2 id="auth-title">Bienvenido a KAMY</h2>
+            <p id="auth-description">Iniciá sesión para continuar</p>
+
+            <form id="login-form">
+                <input
+                    type="text"
+                    id="login-user"
+                    placeholder="Usuario o correo electrónico"
+                    required
+                >
+
+                <input
+                    type="password"
+                    id="login-password"
+                    placeholder="Contraseña"
+                    required
+                >
+
+                <button type="submit">Iniciar sesión</button>
+            </form>
+
+            <form id="register-form" style="display:none;">
+                <input
+                    type="text"
+                    id="register-username"
+                    placeholder="Nombre de usuario"
+                    required
+                >
+
+                <input
+                    type="email"
+                    id="register-email"
+                    placeholder="Correo electrónico"
+                    required
+                >
+
+                <input
+                    type="password"
+                    id="register-password"
+                    placeholder="Contraseña (mínimo 8 caracteres)"
+                    minlength="8"
+                    required
+                >
+
+                <button type="submit">Crear cuenta</button>
+            </form>
+
+            <p id="auth-message"></p>
+
+            <button type="button" id="switch-auth">
+                ¿No tenés cuenta? Registrate
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js?v=2"></script>
+
+</body>
+</html>
