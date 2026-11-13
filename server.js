@@ -80,14 +80,14 @@ function requireLogin(req, res, next) {
 function requireOpenAI(req, res, next) {
     if (!openai) {
         return res.status(503).json({
-            error: "KAMY AI no está configurada. Revisá tu archivo .env."
+            error: "La generación de imágenes no está configurada. Revisá OPENAI_API_KEY."
         });
     }
 
     next();
 }
 
-// Identificador privado y estable para las solicitudes a OpenAI.
+// Identificador privado y estable.
 function getSafetyIdentifier(userId) {
     return crypto
         .createHash("sha256")
@@ -103,8 +103,9 @@ app.get("/api/status", (req, res) => {
     res.json({
         name: "KAMY",
         status: "online",
-        version: "1.2.0",
-        aiConfigured: Boolean(openai)
+        version: "1.3.0",
+        aiConfigured: Boolean(process.env.GROQ_API_KEY),
+        imageConfigured: Boolean(openai)
     });
 });
 
@@ -449,11 +450,17 @@ app.get("/api/players", requireLogin, (req, res) => {
 });
 
 // ==========================================
-// KAMY AI - CHAT
+// KAMY AI - CHAT CON GROQ
 // ==========================================
 
-app.post("/api/ai/chat", requireLogin, requireOpenAI, async (req, res) => {
+app.post("/api/ai/chat", requireLogin, async (req, res) => {
     try {
+        if (!process.env.GROQ_API_KEY) {
+            return res.status(503).json({
+                error: "KAMY AI no está configurada. Falta GROQ_API_KEY en Render."
+            });
+        }
+
         const messages = req.body.messages;
 
         if (!Array.isArray(messages) || messages.length === 0) {
@@ -474,15 +481,19 @@ app.post("/api/ai/chat", requireLogin, requireOpenAI, async (req, res) => {
                 content: message.content.slice(0, 8000)
             }));
 
-        if (!safeMessages.length || safeMessages[safeMessages.length - 1].role !== "user") {
+        if (
+            !safeMessages.length ||
+            safeMessages[safeMessages.length - 1].role !== "user"
+        ) {
             return res.status(400).json({
                 error: "El último mensaje debe ser tuyo."
             });
         }
 
-        const response = await openai.responses.create({
-            model: process.env.OPENAI_MODEL || "gpt-5.6",
-            instructions: `
+        const groqMessages = [
+            {
+                role: "system",
+                content: `
 Sos KAMY AI, el asistente inteligente de la plataforma KAMY.
 
 Tu idioma principal es español.
@@ -493,26 +504,56 @@ organización de equipos, entrenamiento y temas generales.
 No afirmes que podés acceder a datos privados de KAMY
 si no fueron incluidos en la conversación.
 No inventes estadísticas, resultados ni información.
-            `.trim(),
-            input: safeMessages,
-            safety_identifier: getSafetyIdentifier(req.user.id)
-        });
+                `.trim()
+            },
+            ...safeMessages
+        ];
+
+        const response = await fetch(
+            "https://api.groq.com/openai/v1/chat/completions",
+            {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    model: process.env.GROQ_MODEL || "llama-3.3-70b-versatile",
+                    messages: groqMessages,
+                    temperature: 0.7,
+                    max_tokens: 1024
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            console.error("Error de Groq:", response.status, data);
+
+            return res.status(response.status === 429 ? 429 : 502).json({
+                error: data.error?.message ||
+                    "Groq no pudo generar una respuesta."
+            });
+        }
+
+        const reply = data.choices?.[0]?.message?.content;
 
         res.json({
-            reply: response.output_text || "No pude generar una respuesta. Probá nuevamente."
+            reply: reply || "No pude generar una respuesta. Probá nuevamente."
         });
 
     } catch (error) {
         console.error("Error de KAMY AI:", error.message);
 
         res.status(500).json({
-            error: "KAMY AI tuvo un problema al responder. Revisá tu conexión y la configuración de la API."
+            error: "KAMY AI tuvo un problema al responder."
         });
     }
 });
 
 // ==========================================
-// KAMY AI - GENERAR IMÁGENES
+// KAMY AI - GENERAR IMÁGENES CON OPENAI
 // ==========================================
 
 app.post("/api/ai/image", requireLogin, requireOpenAI, async (req, res) => {
@@ -564,5 +605,6 @@ app.post("/api/ai/image", requireLogin, requireOpenAI, async (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`KAMY funcionando en http://localhost:${PORT}`);
-    console.log(`KAMY AI: ${openai ? "CONFIGURADA" : "SIN API KEY"}`);
+    console.log(`KAMY CHAT GROQ: ${process.env.GROQ_API_KEY ? "CONFIGURADO" : "SIN API KEY"}`);
+    console.log(`KAMY IMÁGENES OPENAI: ${openai ? "CONFIGURADO" : "SIN API KEY"}`);
 });
