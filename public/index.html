@@ -5,13 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KAMY | Tu juego. Tu comunidad.</title>
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
 
     <aside class="sidebar">
         <div class="logo">KAMY<span>.</span></div>
-
         <p class="category">PLATAFORMA</p>
 
         <nav>
@@ -82,12 +81,102 @@
 
         <!-- KAMY AI -->
         <section id="ai" class="page">
-            <span class="tag">INTELIGENCIA ARTIFICIAL</span>
-            <h1>Kamy <span>AI</span></h1>
-            <p>Tu asistente personal dentro de KAMY.</p>
-            <div class="placeholder">
-                <h2>✦ Kamy AI</h2>
-                <p>Próximamente, tu propia inteligencia artificial.</p>
+            <div class="ai-heading">
+                <span class="tag">INTELIGENCIA ARTIFICIAL</span>
+                <h1>Kamy <span>AI</span></h1>
+                <p>Tu asistente inteligente dentro de KAMY.</p>
+            </div>
+
+            <div class="ai-workspace">
+
+                <div class="ai-header">
+                    <div>
+                        <h2>✦ KAMY AI</h2>
+                        <p>¿En qué te puedo ayudar hoy?</p>
+                    </div>
+                    <span class="ai-status">● En línea</span>
+                </div>
+
+                <div class="ai-modes">
+                    <button type="button" class="ai-mode active" data-ai-mode="chat">
+                        ✦ Chat
+                    </button>
+                    <button type="button" class="ai-mode" data-ai-mode="image">
+                        ◈ Crear imagen
+                    </button>
+                </div>
+
+                <!-- CHAT -->
+                <div id="ai-chat-panel" class="ai-chat-panel">
+                    <div id="ai-messages" class="ai-messages">
+                        <div class="ai-welcome">
+                            <div class="ai-big-icon">✦</div>
+                            <h2>Hola, soy KAMY AI</h2>
+                            <p>Estoy acá para ayudarte con Rocket League, gaming, tecnología y mucho más.</p>
+
+                            <div class="ai-suggestions">
+                                <button type="button" class="ai-suggestion" data-ai-prompt="Dame consejos para mejorar en Rocket League.">
+                                    🎮 Cómo mejorar en Rocket League
+                                </button>
+                                <button type="button" class="ai-suggestion" data-ai-prompt="Ayudame a crear un equipo competitivo de Rocket League.">
+                                    🏆 Crear un equipo competitivo
+                                </button>
+                                <button type="button" class="ai-suggestion" data-ai-prompt="Explicame cómo mejorar mi mecánica y mi rotación.">
+                                    ⚡ Mejorar mis mecánicas
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="ai-chat-form" class="ai-composer">
+                        <textarea
+                            id="ai-chat-input"
+                            rows="1"
+                            maxlength="8000"
+                            placeholder="Preguntale algo a KAMY AI..."
+                            required
+                        ></textarea>
+
+                        <button type="submit" id="ai-send-button">
+                            Enviar ↑
+                        </button>
+                    </form>
+
+                    <p class="ai-disclaimer">
+                        KAMY AI puede cometer errores. Verificá la información importante.
+                    </p>
+                </div>
+
+                <!-- GENERADOR DE IMÁGENES -->
+                <div id="ai-image-panel" class="ai-tool-panel" hidden>
+                    <div class="ai-welcome">
+                        <div class="ai-big-icon">◈</div>
+                        <h2>Creá imágenes con KAMY</h2>
+                        <p>Describí la imagen que querés generar y la inteligencia artificial la creará.</p>
+                    </div>
+
+                    <form id="ai-image-form">
+                        <textarea
+                            id="ai-image-prompt"
+                            rows="4"
+                            maxlength="3000"
+                            placeholder="Ejemplo: un logo profesional de un equipo de Rocket League, negro y verde..."
+                            required
+                        ></textarea>
+
+                        <button type="submit" id="ai-image-button">
+                            ✦ Generar imagen
+                        </button>
+                    </form>
+
+                    <div id="ai-image-loading" hidden>
+                        Generando tu imagen... Esto puede tardar unos segundos.
+                    </div>
+
+                    <div id="ai-image-result" class="ai-image-result"></div>
+                    <p id="ai-image-error"></p>
+                </div>
+
             </div>
         </section>
 
@@ -96,9 +185,10 @@
             <span class="tag">CONECTÁ CON OTROS</span>
             <h1>Kamy <span>Community</span></h1>
             <p>Un espacio para compartir y conocer jugadores.</p>
+
             <div class="placeholder">
                 <h2>◈ Tu comunidad empieza acá</h2>
-                <p>Próximamente: canales, amigos y mensajes privados.</p>
+                <p>Próximamente: servidores, canales, amigos y mensajes privados.</p>
             </div>
         </section>
 
@@ -117,18 +207,12 @@
                 </button>
             </div>
 
-            <!-- BUSCADOR -->
             <div class="players-search">
                 <span>⌕</span>
-                <input
-                    type="text"
-                    id="player-search"
-                    placeholder="Buscar por usuario, Epic ID o descripción..."
-                >
+                <input type="text" id="player-search" placeholder="Buscar por usuario, Epic ID o descripción...">
                 <button id="search-players">Buscar</button>
             </div>
 
-            <!-- FILTROS -->
             <div class="players-filters">
 
                 <div class="filter-item">
@@ -179,7 +263,6 @@
                         <option value="Nintendo Switch">Nintendo Switch</option>
                     </select>
                 </div>
-
             </div>
 
             <div class="players-extra-filters">
@@ -189,7 +272,6 @@
                 </label>
             </div>
 
-            <!-- RESULTADOS -->
             <div class="players-results-header">
                 <div>
                     <h2>Jugadores</h2>
@@ -204,7 +286,7 @@
                 </div>
             </div>
 
-            <!-- FORMULARIO DE PERFIL -->
+            <!-- PERFIL -->
             <div id="player-profile-panel" class="player-profile-panel" style="display:none;">
 
                 <div class="profile-panel-header">
@@ -213,21 +295,15 @@
                         <h2>Mi perfil de jugador</h2>
                         <p>Completá tus datos para aparecer en KAMY Players.</p>
                     </div>
-
                     <button type="button" id="close-player-profile">✕</button>
                 </div>
 
                 <form id="player-profile-form">
 
                     <label for="profile-bio">Descripción</label>
-                    <textarea
-                        id="profile-bio"
-                        maxlength="300"
-                        placeholder="Contá cómo jugás, qué buscás y qué objetivos tenés..."
-                    ></textarea>
+                    <textarea id="profile-bio" maxlength="300" placeholder="Contá cómo jugás, qué buscás y qué objetivos tenés..."></textarea>
 
                     <div class="profile-form-grid">
-
                         <div>
                             <label for="profile-rank">Tu rango principal</label>
                             <select id="profile-rank" required>
@@ -276,7 +352,6 @@
                                 <option value="Nintendo Switch">Nintendo Switch</option>
                             </select>
                         </div>
-
                     </div>
 
                     <div class="platform-connections">
@@ -304,15 +379,11 @@
                         Estoy buscando equipo
                     </label>
 
-                    <button type="submit" class="primary-btn">
-                        Guardar mi perfil
-                    </button>
-
+                    <button type="submit" class="primary-btn">Guardar mi perfil</button>
                     <p id="profile-message"></p>
 
                 </form>
             </div>
-
         </section>
 
         <!-- BOOST -->
@@ -320,6 +391,7 @@
             <span class="tag">MEJORÁ TU JUEGO</span>
             <h1>Kamy <span>Boost</span></h1>
             <p>Encontrá entrenadores y servicios de coaching.</p>
+
             <div class="placeholder">
                 <h2>⚡ Kamy Boost</h2>
                 <p>Próximamente: entrenadores y sesiones personalizadas.</p>
@@ -330,58 +402,24 @@
 
     </main>
 
-    <!-- BOTÓN DE CUENTA -->
-    <button id="open-auth">
-        Iniciar sesión / Registrarse
-    </button>
+    <!-- CUENTA -->
+    <button id="open-auth">Iniciar sesión / Registrarse</button>
 
-    <!-- SISTEMA DE CUENTAS KAMY -->
     <div id="auth-container" style="display:none;">
         <div class="auth-box">
             <h2 id="auth-title">Bienvenido a KAMY</h2>
             <p id="auth-description">Iniciá sesión para continuar</p>
 
             <form id="login-form">
-                <input
-                    type="text"
-                    id="login-user"
-                    placeholder="Usuario o correo electrónico"
-                    required
-                >
-
-                <input
-                    type="password"
-                    id="login-password"
-                    placeholder="Contraseña"
-                    required
-                >
-
+                <input type="text" id="login-user" placeholder="Usuario o correo electrónico" required>
+                <input type="password" id="login-password" placeholder="Contraseña" required>
                 <button type="submit">Iniciar sesión</button>
             </form>
 
             <form id="register-form" style="display:none;">
-                <input
-                    type="text"
-                    id="register-username"
-                    placeholder="Nombre de usuario"
-                    required
-                >
-
-                <input
-                    type="email"
-                    id="register-email"
-                    placeholder="Correo electrónico"
-                    required
-                >
-
-                <input
-                    type="password"
-                    id="register-password"
-                    placeholder="Contraseña (mínimo 8 caracteres)"
-                    minlength="8"
-                    required
-                >
-
+                <input type="text" id="register-username" placeholder="Nombre de usuario" required>
+                <input type="email" id="register-email" placeholder="Correo electrónico" required>
+                <input type="password" id="register-password" placeholder="Contraseña (mínimo 8 caracteres)" minlength="8" required>
                 <button type="submit">Crear cuenta</button>
             </form>
 
@@ -393,7 +431,7 @@
         </div>
     </div>
 
-    <script src="script.js?v=2"></script>
+    <script src="script.js?v=3"></script>
 
 </body>
 </html>
