@@ -17,17 +17,23 @@ const openai = process.env.OPENAI_API_KEY
     ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
     : null;
 
+// Render funciona detrás de un proxy HTTPS.
+app.set("trust proxy", 1);
+
 app.use(express.json({ limit: "2mb" }));
 
 app.use(session({
+    name: "kamy.sid",
     secret: process.env.SESSION_SECRET || "kamy-local-secret-change-before-production",
     resave: false,
     saveUninitialized: false,
+    proxy: true,
     cookie: {
         httpOnly: true,
         sameSite: "lax",
-        secure: false,
-        maxAge: 7 * 24 * 60 * 60 * 1000
+        secure: "auto",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        path: "/"
     }
 }));
 
@@ -87,7 +93,6 @@ function requireOpenAI(req, res, next) {
     next();
 }
 
-// Identificador privado y estable.
 function getSafetyIdentifier(userId) {
     return crypto
         .createHash("sha256")
@@ -103,7 +108,7 @@ app.get("/api/status", (req, res) => {
     res.json({
         name: "KAMY",
         status: "online",
-        version: "1.3.0",
+        version: "1.3.1",
         aiConfigured: Boolean(process.env.GROQ_API_KEY),
         imageConfigured: Boolean(openai)
     });
@@ -178,9 +183,19 @@ app.post("/api/register", async (req, res) => {
 
         req.session.userId = newUser.id;
 
-        res.status(201).json({
-            message: "¡Cuenta creada correctamente!",
-            user: publicUser(newUser)
+        // Guardar la sesión antes de responder.
+        req.session.save(err => {
+            if (err) {
+                console.error("Error guardando sesión de registro:", err);
+                return res.status(500).json({
+                    error: "La cuenta se creó, pero no se pudo iniciar la sesión."
+                });
+            }
+
+            res.status(201).json({
+                message: "¡Cuenta creada correctamente!",
+                user: publicUser(newUser)
+            });
         });
 
     } catch (error) {
@@ -218,8 +233,10 @@ app.post("/api/login", async (req, res) => {
             });
         }
 
+        // Regenerar el identificador de sesión al iniciar sesión.
         req.session.regenerate(err => {
             if (err) {
+                console.error("Error regenerando sesión:", err);
                 return res.status(500).json({
                     error: "No se pudo iniciar la sesión."
                 });
@@ -227,9 +244,19 @@ app.post("/api/login", async (req, res) => {
 
             req.session.userId = user.id;
 
-            res.json({
-                message: "Sesión iniciada correctamente.",
-                user: publicUser(user)
+            // Esperar a que la sesión quede guardada antes de responder.
+            req.session.save(saveError => {
+                if (saveError) {
+                    console.error("Error guardando sesión de login:", saveError);
+                    return res.status(500).json({
+                        error: "No se pudo guardar la sesión."
+                    });
+                }
+
+                res.json({
+                    message: "Sesión iniciada correctamente.",
+                    user: publicUser(user)
+                });
             });
         });
 
@@ -277,7 +304,12 @@ app.post("/api/logout", (req, res) => {
             });
         }
 
-        res.clearCookie("connect.sid");
+        res.clearCookie("kamy.sid", {
+            httpOnly: true,
+            sameSite: "lax",
+            secure: "auto",
+            path: "/"
+        });
 
         res.json({
             message: "Sesión cerrada correctamente."
